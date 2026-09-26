@@ -15,8 +15,19 @@ router.get("/viewtasks",(req,res)=>{
     res.send("view tasks page called");
  })
 
-  router.post("/login",(req,res)=>{
-    res.send("login page called");
- })
-
+  router.post("/login",async(req,res)=>{
+   let data=req.body;
+   let emailcheck=await users.findOne({email:data.email});
+   if(emailcheck){
+    let passwordcheck=await bcrypt.compare(data.password,emailcheck.password);
+    if(passwordcheck){
+     res.send("login successful");
+    }else{
+     res.send("invalid credentials");
+    }
+   }else{
+    res.send("user not found");
+   }
+  })  
  module.exports=router;
+ 
