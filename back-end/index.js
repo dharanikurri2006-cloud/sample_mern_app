@@ -1,10 +1,12 @@
 let express=require('express');
 let app=express();
+let cors=require('cors');
 let mongoose=require('mongoose');
 let hrroutes=require('./routes/hr_routes')
 let emproutes=require('./routes/emp_routes')
 
 app.use(express.json());
+app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/hrmanagment").then(
     ()=>{console.log("db connect success")}).catch((err)=>console.log(err));
