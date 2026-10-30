@@ -17,6 +17,18 @@ function Login(){
             });
             let data=await req.json()
             console.log(data);
+            if(data.user){
+                localStorage.setItem("currentuser",JSON.stringify(data.user))
+                //JSON.stringify(data.user) is used to convert the user object into a JSON string so that it can be stored in localStorage, which only supports string values. When you retrieve the user data from localStorage later, you can use JSON.parse() to convert the JSON string back into a JavaScript object.
+                if(data.user.role=="HR"){
+                    navigate("/hrhome");
+                }else{
+                    navigate("/emphome")
+                }
+
+            }else{
+                setError(data.message);
+            }
         }   
     }
     return(
@@ -31,6 +43,7 @@ function Login(){
         </form>
         
 
+  {error && <div className="alert alert-danger">{error}</div>}
     </div>
     )
 }
